@@ -84,6 +84,25 @@ test('image width is great than container and heights are the same size', functi
   equal(aspect(result), aspect(image), 'Aspect ratio has changed');
 });
 
+test('image width is less than container and heights are the same size', function() {
+  var container = {
+    width: 1024,
+    height: 768
+  };
+
+  var image = {
+    width: 800,
+    height: 768
+  };
+
+  var result = scale(image, container);
+
+  ok(result.width <= container.width, 'Width not within container');
+  ok(result.height <= container.height, 'Height not within container');
+  ok(atLeastWidthOrHeightMatch(result, container), 'Image not big enough');
+  equal(aspect(result), aspect(image), 'Aspect ratio has changed');
+});
+
 test('image width and height is greater than container', function() {
   var container = {
     width: 1024,
