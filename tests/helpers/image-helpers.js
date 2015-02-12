@@ -1,32 +1,70 @@
+function orientation(image) {
+  if (image.width > image.height) {
+    return 'L';
+  }
+
+  if (image.width < image.height) {
+    return 'P';
+  }
+
+  return 'C';
+}
+
 function calculateRatio(image, container) {
   var prop;
 
-  if (image.width === container.width && image.height === container.height) {
+  if (image.height === container.height && image.width === container.width) {
     return 1;
   }
 
-  //if (image.width === container.width && image.height > container.height) {
+  //if (image.height === container.height && image.width > container.width) {
     //return container.height / image.height;
   //}
 
-  //if (image.width > container.width && image.height === container.height) {
+  //if (image.height > container.height && image.width === container.width) {
     //return container.width / image.width;
   //}
 
-  if (image.width > container.width && image.height > container.height) {
+  if (image.height > container.height && image.width > container.width) {
+    if (image.width > image.height) {
+      prop = 'width';
+    } else if (image.height > image.width) {
+      prop = 'height';
+    } else {
+      if (container.height > container.width) {
+        prop = 'width';
+      } else {
+        prop = 'height';
+      }
+    }
+
+    return container[prop] / image[prop];
+  }
+
+  if (image.height < container.height && image.width < container.width) {
+    if (image.width > image.height) {
+      prop = 'width';
+    } else if (image.height > image.width) {
+      prop = 'height';
+    } else {
+      if (container.height > container.width) {
+        prop = 'width';
+      } else {
+        prop = 'height';
+      }
+    }
+
+    return container[prop] / image[prop];
+  }
+
+  if (image.height > container.height && image.width < container.width) {
     prop = image.width > image.height ? 'width' : 'height';
 
     return container[prop] / image[prop];
   }
 
-  if (image.width < container.width && image.height < container.height) {
-    prop = image.width > image.height ? 'width' : 'height';
-
-    return container[prop] / image[prop];
-  }
-
-  if (image.width < container.width && image.height > container.height) {
-    prop = image.width > image.height ? 'width' : 'height';
+  if (image.height < container.height && image.width > container.width) {
+    prop = image.width > image.height ? 'height' : 'width';
 
     return container[prop] / image[prop];
   }
