@@ -1,109 +1,15 @@
-function orientation(image) {
-  if (image.width > image.height) {
-    return 'L';
-  }
-
-  if (image.width < image.height) {
-    return 'P';
-  }
-
-  return 'C';
-}
-
 function calculateRatio(image, container) {
   var prop;
-  var parentAspect;
-  var imageAspect;
+  var parentAspect = aspect(container);
+  var imageAspect = aspect(image);
 
-  if (image.height === container.height && image.width === container.width) {
-    return 1;
+  if (imageAspect > parentAspect) {
+    prop = 'width';
+  } else {
+    prop = 'height';
   }
 
-  if (image.height === container.height && image.width > container.width) {
-    parentAspect = aspect(container);
-    imageAspect = aspect(image);
-
-    if (imageAspect > parentAspect) {
-      prop = 'width';
-    } else {
-      prop = 'height';
-    }
-
-    return container[prop] / image[prop];
-  }
-
-  if (image.height > container.height && image.width === container.width) {
-    parentAspect = aspect(container);
-    imageAspect = aspect(image);
-
-    if (imageAspect > parentAspect) {
-      prop = 'width';
-    } else {
-      prop = 'height';
-    }
-
-    return container[prop] / image[prop];
-   }
-
-  if (image.height > container.height && image.width > container.width) {
-    parentAspect = aspect(container);
-    imageAspect = aspect(image);
-
-    if (imageAspect > parentAspect) {
-      prop = 'width';
-    } else {
-      prop = 'height';
-    }
-
-    return container[prop] / image[prop];
-  }
-
-  if (image.height < container.height && image.width < container.width) {
-    parentAspect = aspect(container);
-    imageAspect = aspect(image);
-
-    if (imageAspect > parentAspect) {
-      prop = 'width';
-    } else {
-      prop = 'height';
-    }
-
-    return container[prop] / image[prop];
-  }
-
-  if (image.height > container.height && image.width < container.width) {
-    parentAspect = aspect(container);
-    imageAspect = aspect(image);
-
-    if (imageAspect > parentAspect) {
-      prop = 'width';
-    } else {
-      prop = 'height';
-    }
-
-    return container[prop] / image[prop];
-  }
-
-  if (image.height < container.height && image.width > container.width) {
-    parentAspect = aspect(container);
-    imageAspect = aspect(image);
-
-    if (imageAspect > parentAspect) {
-      prop = 'width';
-    } else {
-      prop = 'height';
-    }
-
-    return container[prop] / image[prop];
-  }
-
-  if (image.height < container.height && image.width > container.width) {
-    prop = image.width > image.height ? 'height' : 'width';
-
-    return container[prop] / image[prop];
-  }
-
-  return 1;
+  return container[prop] / image[prop];
 }
 
 var scale = function(image, container) {
