@@ -45,6 +45,82 @@ test('image.height < container.height and image.width < container.width (hits to
   equal(aspect(result), aspect(image), 'Aspect ratio has changed');
 });
 
+test('image.height === container.height and image.width < container.width', function() {
+  var container = {
+    width: 800,
+    height: 600
+  };
+
+  var image = {
+    width: 700,
+    height: 600
+  };
+
+  var result = scale(image, container);
+
+  ok(result.width <= container.width, 'Width not within container');
+  ok(result.height <= container.height, 'Height not within container');
+  equal(result.height, 600);
+  equal(aspect(result), aspect(image), 'Aspect ratio has changed');
+});
+
+test('image.height < container.height and image.width === container.width', function() {
+  var container = {
+    width: 800,
+    height: 600
+  };
+
+  var image = {
+    width: 800,
+    height: 550
+  };
+
+  var result = scale(image, container);
+
+  ok(result.width <= container.width, 'Width not within container');
+  ok(result.height <= container.height, 'Height not within container');
+  equal(result.width, 800);
+  equal(aspect(result), aspect(image), 'Aspect ratio has changed');
+});
+
+test('image.height === container.height and image.width > container.width', function() {
+  var container = {
+    width: 800,
+    height: 600
+  };
+
+  var image = {
+    width: 1000,
+    height: 600
+  };
+
+  var result = scale(image, container);
+
+  ok(result.width <= container.width, 'Width not within container');
+  ok(result.height <= container.height, 'Height not within container');
+  equal(result.width, 800);
+  equal(aspect(result), aspect(image), 'Aspect ratio has changed');
+});
+
+test('image.height === container.height and image.width === container.width', function() {
+  var container = {
+    width: 800,
+    height: 600
+  };
+
+  var image = {
+    width: 800,
+    height: 600
+  };
+
+  var result = scale(image, container);
+
+  ok(result.width <= container.width, 'Width not within container');
+  ok(result.height <= container.height, 'Height not within container');
+  equal(result.height, 600);
+  equal(aspect(result), aspect(image), 'Aspect ratio has changed');
+});
+
 test('image.height < container.height and image.width > container.width', function() {
   var container = {
     width: 800,
@@ -64,7 +140,7 @@ test('image.height < container.height and image.width > container.width', functi
   equal(aspect(result), aspect(image), 'Aspect ratio has changed');
 });
 
-test('image.height > container.height and image.width > container.width (hits sides first)', function() {
+test('image.height > container.height and image.width > container.width (match by width)', function() {
   var container = {
     width: 800,
     height: 600
@@ -83,7 +159,7 @@ test('image.height > container.height and image.width > container.width (hits si
   equal(aspect(result), aspect(image), 'Aspect ratio has changed');
 });
 
-test('image.height > container.height and image.width > container.width (hits top first)', function() {
+test('image.height > container.height and image.width > container.width (match by height)', function() {
   var container = {
     width: 800,
     height: 600
@@ -118,43 +194,5 @@ test('image.height > container.height and image.width < container.width', functi
   ok(result.width <= container.width, 'Width not within container');
   ok(result.height <= container.height, 'Height not within container');
   equal(result.height, 600);
-  equal(aspect(result), aspect(image), 'Aspect ratio has changed');
-});
-
-test('image.height === container.height and image.width === container.width', function() {
-  var container = {
-    width: 800,
-    height: 600
-  };
-
-  var image = {
-    width: 800,
-    height: 600
-  };
-
-  var result = scale(image, container);
-
-  ok(result.width <= container.width, 'Width not within container');
-  ok(result.height <= container.height, 'Height not within container');
-  equal(result.height, 600);
-  equal(aspect(result), aspect(image), 'Aspect ratio has changed');
-});
-
-test('image.height === container.height and image.width > container.width', function() {
-  var container = {
-    width: 800,
-    height: 600
-  };
-
-  var image = {
-    width: 1000,
-    height: 600
-  };
-
-  var result = scale(image, container);
-
-  ok(result.width <= container.width, 'Width not within container');
-  ok(result.height <= container.height, 'Height not within container');
-  equal(result.width, 800);
   equal(aspect(result), aspect(image), 'Aspect ratio has changed');
 });
