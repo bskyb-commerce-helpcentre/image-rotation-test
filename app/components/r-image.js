@@ -4,10 +4,16 @@ export default Em.Component.extend({
   classNames: ['rotatable-image-container'],
   attributeBindings: ['style'],
   containerHeight: 0,
+  containerWidth: 0,
+  originalOrientation: true,
 
   onDidInsertElement: function() {
-    var height = this.get('element').offsetHeight;
+    var element = this.get('element');
+    var height  = element.offsetHeight;
+    var width   = element.offsetWidth;
+
     this.set('containerHeight', height);
+    this.set('containerWidth', width);
   }.on('didInsertElement'),
 
   style: Em.computed('containerHeight', function() {
@@ -21,10 +27,10 @@ export default Em.Component.extend({
     return 'transform: rotate('+ degrees +'deg) scale('+ scale +');';
   }),
 
-  aspect: Em.computed('aspect', function() {
-    var height = this.$().height();
-    var width = this.$().width();
-    return width/height;
+  aspect: Em.computed(function() {
+    var height = this.get('containerHeight');
+    var width = this.get('containerWidth');
+    return (width / height).toFixed(2);
   }),
 
   imageWidth: function() {
@@ -35,7 +41,7 @@ export default Em.Component.extend({
     return this.$('img').height();
   }.property(),
 
-  imageAspect: Em.computed('imageAspect', 'imageHeight', 'imageWidth', function() {
+  imageAspect: Em.computed('imageHeight', 'imageWidth', function() {
     var height = this.get('imageHeight');
     var width = this.get('imageWidth');
     return width/height;
@@ -50,9 +56,14 @@ export default Em.Component.extend({
   }),
 
   click: function() {
+    this._rotate.apply(this);
+    //this.swapImageWidthAndHeight();
+    //this.set('scale', this.recalculateScale());
+  },
+
+  _rotate: function() {
     this.incrementProperty('degrees', 90);
-    this.swapImageWidthAndHeight();
-    this.set('scale', this.recalculateScale());
+    this.toggleProperty('originalOrientation');
   },
 
   //mouseEnter: function() {
@@ -63,27 +74,37 @@ export default Em.Component.extend({
     //this.decrementProperty('degrees', 3);
   //},
 
-  recalculateScale: function() {
+  recalculateScale: Em.observer('originalOrientation', function() {
     var containerAspect = this.get('aspect');
+    console.log('Container Aspect: ', containerAspect);
     var imageAspect = this.get('imageAspect');
+    console.log('Image Aspect: ', imageAspect);
 
     var imageHeight = this.get('imageHeight');
+    console.log('Image Height: ', imageHeight);
     var imageWidth = this.get('imageWidth');
-    var containerHeight = this.$().height();
-    var containerWidth = this.$().width();
+    console.log('Image Width: ', imageWidth);
+    var containerHeight = this.get('containerHeight');
+    console.log('Container Height', containerHeight);
+    var containerWidth = this.get('containerWidth');
+    console.log('Container Width', containerWidth);
+
+    var scale;
 
     if (imageAspect > containerAspect) {
-      return containerWidth / imageWidth;
+      scale = (containerWidth / imageWidth).toFixed(2);
     } else {
-      return containerHeight / imageHeight;
+      scale = (containerHeight / imageHeight).toFixed(2);
     }
-  },
 
-  swapImageWidthAndHeight: function() {
-    var height = this.get('imageHeight');
-    var width = this.get('imageWidth');
-    this.set('imageHeight', width);
-    this.set('imageWidth', height);
-  }
+    this.set('scale', scale);
+  }),
+
+  //swapImageWidthAndHeight: function() {
+    //var height = this.get('imageHeight');
+    //var width = this.get('imageWidth');
+    //this.set('imageHeight', width);
+    //this.set('imageWidth', height);
+  //}
 
 });
