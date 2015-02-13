@@ -19,9 +19,18 @@ function calculateRatio(image, container) {
     return 1;
   }
 
-  //if (image.height === container.height && image.width > container.width) {
-    //return container.height / image.height;
-  //}
+  if (image.height === container.height && image.width > container.width) {
+    parentAspect = aspect(container);
+    imageAspect = aspect(image);
+
+    if (imageAspect > parentAspect) {
+      prop = 'width';
+    } else {
+      prop = 'height';
+    }
+
+    return container[prop] / image[prop];
+  }
 
   //if (image.height > container.height && image.width === container.width) {
     //return container.width / image.width;
