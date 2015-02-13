@@ -12,6 +12,8 @@ function orientation(image) {
 
 function calculateRatio(image, container) {
   var prop;
+  var parentAspect;
+  var imageAspect;
 
   if (image.height === container.height && image.width === container.width) {
     return 1;
@@ -26,39 +28,53 @@ function calculateRatio(image, container) {
   //}
 
   if (image.height > container.height && image.width > container.width) {
-    if (image.width > image.height) {
+    parentAspect = aspect(container);
+    imageAspect = aspect(image);
+
+    if (imageAspect > parentAspect) {
       prop = 'width';
-    } else if (image.height > image.width) {
-      prop = 'height';
     } else {
-      if (container.height > container.width) {
-        prop = 'width';
-      } else {
-        prop = 'height';
-      }
+      prop = 'height';
     }
 
     return container[prop] / image[prop];
   }
 
   if (image.height < container.height && image.width < container.width) {
-    if (image.width > image.height) {
+    parentAspect = aspect(container);
+    imageAspect = aspect(image);
+
+    if (imageAspect > parentAspect) {
       prop = 'width';
-    } else if (image.height > image.width) {
-      prop = 'height';
     } else {
-      if (container.height > container.width) {
-        prop = 'width';
-      } else {
-        prop = 'height';
-      }
+      prop = 'height';
     }
 
     return container[prop] / image[prop];
   }
 
   if (image.height > container.height && image.width < container.width) {
-    prop = image.width > image.height ? 'width' : 'height';
+    parentAspect = aspect(container);
+    imageAspect = aspect(image);
+
+    if (imageAspect > parentAspect) {
+      prop = 'width';
+    } else {
+      prop = 'height';
+    }
+
+    return container[prop] / image[prop];
+  }
+
+  if (image.height < container.height && image.width > container.width) {
+    parentAspect = aspect(container);
+    imageAspect = aspect(image);
+
+    if (imageAspect > parentAspect) {
+      prop = 'width';
+    } else {
+      prop = 'height';
+    }
 
     return container[prop] / image[prop];
   }
@@ -83,7 +99,7 @@ var scale = function(image, container) {
 };
 
 var aspect = function(image) {
-  return image.width / image.height;
+  return (image.width / image.height).toFixed(2);
 };
 
 export {scale, aspect};

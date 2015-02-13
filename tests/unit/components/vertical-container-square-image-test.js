@@ -5,7 +5,7 @@ import {
 
 import {scale, aspect} from '../../helpers/image-helpers';
 
-module('VerticalRectangleContainerSquareImage');
+module('VerticalContainerSquareImage');
 
 test('image.height > container.height and image.width > container.width', function() {
   var container = {

@@ -62,7 +62,7 @@ test('image.height < container.height and image.width < container.width', functi
 
   ok(result.width <= container.width, 'Width not within container');
   ok(result.height <= container.height, 'Height not within container');
-  equal(result.height, container.height);
-  equal(result.width, container.width);
+  equal(result.height, 500);
+  equal(result.width, 500);
   equal(aspect(result), aspect(image), 'Aspect ratio has changed');
 });
