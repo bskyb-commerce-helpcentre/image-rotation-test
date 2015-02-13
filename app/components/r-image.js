@@ -5,7 +5,7 @@ export default Em.Component.extend({
   attributeBindings: ['style'],
   containerHeight: 0,
 
-  getInitialValues: function() {
+  onDidInsertElement: function() {
     var height = this.get('element').offsetHeight;
     this.set('containerHeight', height);
   }.on('didInsertElement'),
