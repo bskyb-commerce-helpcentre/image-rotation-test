@@ -102,6 +102,44 @@ test('image.height > container.height and image.width === container.width', func
   equal(aspect(result), aspect(image), 'Aspect ratio has changed');
 });
 
+test('image.height < container.height and image.width > container.width', function() {
+  var container = {
+    width: 600,
+    height: 800
+  };
+
+  var image = {
+    width: 650,
+    height: 750
+  };
+
+  var result = scale(image, container);
+
+  ok(result.width <= container.width, 'Width not within container');
+  ok(result.height <= container.height, 'Height not within container');
+  equal(result.width, 600);
+  equal(aspect(result), aspect(image), 'Aspect ratio has changed');
+});
+
+test('image.height > container.height and image.width < container.width', function() {
+  var container = {
+    width: 600,
+    height: 800
+  };
+
+  var image = {
+    width: 550,
+    height: 850
+  };
+
+  var result = scale(image, container);
+
+  ok(result.width <= container.width, 'Width not within container');
+  ok(result.height <= container.height, 'Height not within container');
+  equal(result.height, 800);
+  equal(aspect(result), aspect(image), 'Aspect ratio has changed');
+});
+
 test('image.height === container.height and image.width === container.width', function() {
   var container = {
     width: 600,
